@@ -64,4 +64,17 @@ $(function(){
 			menu.css(css);
 			btn.css(css);
   }
+
+	T_Animation.prototype.show = function(){
+		this.menu.removeClass("menu_"+this.name_hide);
+		this.btn.removeClass("btn_"+this.name_hide);
+		this.menu.addClass("menu_"+this.name_show);
+		this.btn.addClass("btn_"+this.name_show);
+	}
+	T_Animation.prototype.hide = function(){
+		this.menu.removeClass("menu_"+this.name_show);
+		this.btn.removeClass("btn_"+this.name_show);
+		this.menu.addClass("menu_"+this.name_hide);
+		this.btn.addClass("btn_"+this.name_hide);
+	}
 });

@@ -38,11 +38,9 @@ $(function(){
 			}else{
 				own.pre_pos = event.touches[0].pageY;
 			}
-			console.log("touch");
 		})
 		.on("touchmove",this,function(e){
 			event.preventDefault();
-			console.log("move");
 			var own = e.data;
 			if(!own.isTouch) return;
 			var pos;
@@ -81,8 +79,6 @@ $(function(){
 				}
 				return;
 			}
-			console.log(Math.abs(now_pos_menu - anime.end_menu));
-			console.log(Math.abs(now_pos_menu - anime.org_pos_menu));
 			if(Math.abs(now_pos_menu - anime.end_menu)<SLIDE_OFFSET){
 				own.swipe_show = true;
 				own.swipe_hide = false;
@@ -94,33 +90,27 @@ $(function(){
 			}
 			own.swipe_show = false;
 			own.swipe_hide = false;
-			console.log("nonononononoonon");
 		})
 		.on("touchend",this,function(e){
 			var own = e.data;
 			own.isTouch = false;
 			if(own.swipe_show){
-				menu.addClass("menu_"+anime.name_show);
-				btn.addClass("btn_"+anime.name_show);
+				anime.show();
 				own.isShow = true;
-				console.log("show");
 				return;
 			}
 			if(own.swipe_hide){
-				menu.addClass("menu_"+anime.name_hide);
-				btn.addClass("btn_"+anime.name_hide);
+				anime.hide();
 				own.isShow = false;
-				console.log("hide");
 				return;
 			}
 			if(own.isShow){
-				menu.addClass("menu_"+anime.name_show);
-				btn.addClass("btn_"+anime.name_show);
+				anime.show();
 			}else{
-				menu.addClass("menu_"+anime.name_hide);
-				btn.addClass("btn_"+anime.name_hide);
+				anime.hide();
 			}
 		});
+		return anime;
 	}
 	T_SlideMenu.prototype.getAnimation = function(id){
 		return this.animations[id-1];
