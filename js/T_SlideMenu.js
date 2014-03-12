@@ -6,7 +6,7 @@
 $(function(){
 
 	var SWIPE_OFFSET = 5;
-
+	var SLIDE_OFFSET = 150;
 	T_SlideMenu = function(){
 		this.animations = new Array;
 		this.isTouch = false;
@@ -25,8 +25,8 @@ $(function(){
 			if(own.isShow){
 				menu.removeClass("menu_"+anime.name_show);
 				btn.removeClass("btn_"+anime.name_show);
-				menu.css(anime.oriental,anime.end+"px");
-				btn.css(anime.oriental,anime.end+"px");
+				menu.css(anime.oriental,anime.end_menu+"px");
+				btn.css(anime.oriental,anime.end_btn+"px");
 			}else{
 				menu.removeClass("menu_"+anime.name_hide);
 				btn.removeClass("btn_"+anime.name_hide);
@@ -38,9 +38,11 @@ $(function(){
 			}else{
 				own.pre_pos = event.touches[0].pageY;
 			}
+			console.log("touch");
 		})
 		.on("touchmove",this,function(e){
 			event.preventDefault();
+			console.log("move");
 			var own = e.data;
 			if(!own.isTouch) return;
 			var pos;
@@ -60,32 +62,55 @@ $(function(){
 			dif = own.pre_pos - pos;
 			menu.css(anime.oriental,(now_pos_menu-dif)+"px");
 			btn.css(anime.oriental,(now_pos_btn-dif)+"px");
-			console.log("wwwww    "+dif);
 			own.pre_pos = pos;
 			if(dif > SWIPE_OFFSET){
-				own.swipe_up = true;
+				if(anime.which){
+					own.swipe_hide = true;
+				}else{
+					own.swipe_show = true;
+				}
 				return;
 			}
 			if(-1*dif > SWIPE_OFFSET){
-				own.swipe_down = true;
+				if(anime.which){
+					own.swipe_show = true;
+					own.swipe_hide = false;
+				}else{
+					own.swipe_hide = true;
+					own.swipe_show = false;
+				}
 				return;
 			}
-			own.swipe_up = false;
-			own.swipe_down = false;
+			console.log(Math.abs(now_pos_menu - anime.end_menu));
+			console.log(Math.abs(now_pos_menu - anime.org_pos_menu));
+			if(Math.abs(now_pos_menu - anime.end_menu)<SLIDE_OFFSET){
+				own.swipe_show = true;
+				own.swipe_hide = false;
+				return;
+			}else if(Math.abs(now_pos_menu - anime.org_pos_menu)<SLIDE_OFFSET){
+				own.swipe_hide = true;
+				own.swipe_show = false;
+				return;
+			}
+			own.swipe_show = false;
+			own.swipe_hide = false;
+			console.log("nonononononoonon");
 		})
 		.on("touchend",this,function(e){
 			var own = e.data;
 			own.isTouch = false;
-			if(own.swipe_up){
-				menu.addClass("menu_"+anime.name_hide);
-				btn.addClass("btn_"+anime.name_hide);
-				own.isShow = false;
-				return;
-			}
-			if(own.swipe_down){
+			if(own.swipe_show){
 				menu.addClass("menu_"+anime.name_show);
 				btn.addClass("btn_"+anime.name_show);
 				own.isShow = true;
+				console.log("show");
+				return;
+			}
+			if(own.swipe_hide){
+				menu.addClass("menu_"+anime.name_hide);
+				btn.addClass("btn_"+anime.name_hide);
+				own.isShow = false;
+				console.log("hide");
 				return;
 			}
 			if(own.isShow){

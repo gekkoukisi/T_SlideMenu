@@ -21,15 +21,17 @@ $(function(){
 				org_pos_btn = btn[0].offsetTop;
 			}
 			var dif_btn_menu = org_pos_menu-org_pos_btn;
+			var end_menu = end;
+			var end_btn = end - dif_btn_menu;;
 			var body = "";
 			body += "0% {}";
-			body += "100% { "+oriental+": "+end+" }";
+			body += "100% { "+oriental+": "+end_menu+" }";
 		  var css = "@-webkit-keyframes menu_"+name_show+" { "+body+"}\n";
 		  css += "@keyframes menu_"+name_show+" { "+body+" }\n";
 			css += ".menu_"+name_show+" { -webkit-animation-name: menu_"+name_show+";animarion-name: menu_"+name_show+";}\n";
 			body = "";
 			body += "0% {}";
-			body += "100% { "+oriental+": "+end+" }";
+			body += "100% { "+oriental+": "+end_btn+" }";
 		  css += "@-webkit-keyframes btn_"+name_show+" { "+body+"}\n";
 		  css += "@keyframes btn_"+name_show+" { "+body+" }\n";
 			css += ".btn_"+name_show+" { -webkit-animation-name: btn_"+name_show+";animarion-name: btn_"+name_show+";}\n";
@@ -48,11 +50,12 @@ $(function(){
 			this.name_show = name_show;
 			this.name_hide = name_hide;
 			this.oriental = oriental;
-			this.end = end;
+			this.end_menu = end_menu;
+			this.end_btn = end_btn;
 			this.css = css;
 			this.org_pos_menu = org_pos_menu;
 			this.org_pos_btn = org_pos_btn;
-			this.which = org_pos_menu < end;
+			this.which = org_pos_menu < end_menu;
 			this.type = type;
 			this.menu = menu;
 			this.btn = btn;
