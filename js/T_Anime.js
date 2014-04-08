@@ -70,6 +70,11 @@ $(function(){
 		this.btn.removeClass("btn_"+this.name_hide);
 		this.menu.addClass("menu_"+this.name_show);
 		this.btn.addClass("btn_"+this.name_show);
+		if(this.type){
+			this.menu.css("width",(window.innerWidth-this.end_menu)+"px");
+		}else{
+			this.menu.css("height",(window.innerHeight-this.end_menu)+"px");
+		}
 	}
 	T_Animation.prototype.hide = function(){
 		this.menu.removeClass("menu_"+this.name_show);
